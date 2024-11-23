@@ -22,6 +22,7 @@ import su.nightexpress.nightcore.util.Plugins;
 import su.nightexpress.nightcore.util.StringUtil;
 import su.nightexpress.nightcore.util.placeholder.Placeholder;
 import su.nightexpress.nightcore.util.placeholder.PlaceholderMap;
+import su.nightexpress.nightcore.util.random.Rnd;
 import su.nightexpress.nightcore.util.text.NightMessage;
 
 import java.util.ArrayList;
@@ -357,11 +358,8 @@ public class Reward implements Weighted, Placeholder {
 
     @Override
     public double getRollChance() {
-        Rarity rarity = this.getRarity();
-
-        double sum = this.crate.getRewards(rarity).stream().mapToDouble(Reward::getWeight).sum();
-        double rarityChance = rarity.getRollChance(this.crate);
-        double chance = (this.getWeight() / sum) * (rarityChance / 100D);
+        double sum = this.crate.getRewards().stream().mapToDouble(Reward::getWeight).sum();
+        double chance = (this.getWeight() / sum);
 
         return chance * 100D;
     }

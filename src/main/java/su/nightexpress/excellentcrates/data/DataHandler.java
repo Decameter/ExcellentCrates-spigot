@@ -157,7 +157,6 @@ public class DataHandler extends AbstractUserDataHandler<CratesPlugin, CrateUser
 
             CrateUser fresh = this.getUser(user.getId());
             if (fresh == null) continue;
-            if (!user.isSyncReady()) continue;
 
             user.getKeysMap().clear();
             user.getKeysMap().putAll(fresh.getKeysMap());

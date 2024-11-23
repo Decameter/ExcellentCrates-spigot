@@ -8,7 +8,6 @@ import su.nightexpress.excellentcrates.api.currency.CurrencyHandler;
 import su.nightexpress.excellentcrates.currency.handler.PlayerLevelsHandler;
 import su.nightexpress.excellentcrates.currency.handler.VaultEconomyHandler;
 import su.nightexpress.excellentcrates.currency.handler.PlayerXPHandler;
-import su.nightexpress.excellentcrates.currency.impl.CoinsEngineCurrency;
 import su.nightexpress.excellentcrates.currency.impl.ConfigCurrency;
 import su.nightexpress.excellentcrates.hooks.HookId;
 import su.nightexpress.nightcore.config.FileConfig;
@@ -40,7 +39,6 @@ public class CurrencyManager extends SimpleManager<CratesPlugin> {
             this.loadCurrency(VaultEconomyHandler.ID, VaultEconomyHandler::new);
         }
         if (Plugins.isInstalled(HookId.COINS_ENGINE)) {
-            CoinsEngineCurrency.getCurrencies().forEach(this::registerCurrency);
         }
     }
 

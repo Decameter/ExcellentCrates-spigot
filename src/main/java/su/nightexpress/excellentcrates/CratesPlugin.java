@@ -13,7 +13,6 @@ import su.nightexpress.excellentcrates.data.impl.CrateUser;
 import su.nightexpress.excellentcrates.editor.EditorManager;
 import su.nightexpress.excellentcrates.hologram.HologramHandler;
 import su.nightexpress.excellentcrates.hologram.impl.HologramPacketsHandler;
-import su.nightexpress.excellentcrates.hologram.impl.HologramProtocolHandler;
 import su.nightexpress.excellentcrates.hooks.HookId;
 import su.nightexpress.excellentcrates.hooks.impl.PlaceholderHook;
 import su.nightexpress.excellentcrates.key.KeyManager;
@@ -97,9 +96,6 @@ public class CratesPlugin extends NightDataPlugin<CrateUser> {
     private void loadHologramHandler() {
         if (Plugins.isInstalled(HookId.PACKET_EVENTS)) {
             this.hologramHandler = new HologramPacketsHandler(this);
-        }
-        else if (Plugins.isInstalled(HookId.PROTOCOL_LIB)) {
-            this.hologramHandler = new HologramProtocolHandler(this);
         }
 
         if (this.hasHolograms()) {

@@ -25,7 +25,6 @@ import java.util.Set;
 public class RewardSpinner extends InventorySpinner {
 
     private final RewardSpinSettings  settings;
-    private final Map<Rarity, Double> rarityWeightMap;
 
     public RewardSpinner(@NotNull CratesPlugin plugin,
                          @NotNull String id,
@@ -34,23 +33,6 @@ public class RewardSpinner extends InventorySpinner {
                          @NotNull SpinMode mode, int[] slots) {
         super(plugin, id, opening, mode, slots);
         this.settings = settings;
-        this.rarityWeightMap = new HashMap<>();
-
-        Set<Rarity> rarities = new HashSet<>();
-        if (this.settings.getRarities().contains(Placeholders.WILDCARD)) {
-            rarities.addAll(plugin.getCrateManager().getRarities());
-        }
-        else {
-            plugin.getCrateManager().getRarities().forEach(rarity -> {
-                if (this.settings.getRarities().contains(rarity.getId())) {
-                    rarities.add(rarity);
-                }
-            });
-        }
-
-        rarities.forEach(rarity -> {
-            this.rarityWeightMap.put(rarity, rarity.getWeight());
-        });
     }
 
     @Override
@@ -64,17 +46,7 @@ public class RewardSpinner extends InventorySpinner {
     public ItemStack createItem() {
         Crate crate = this.opening.getCrate();
         Player player = this.opening.getPlayer();
-
-        Map<Rarity, Double> rarityWeights = new HashMap<>(this.rarityWeightMap);
-        rarityWeights.keySet().removeIf(rarity -> !crate.hasRewards(player, rarity));
-
-        Rarity rarity = rarityWeights.isEmpty() ? null : Rnd.getByWeight(rarityWeights);
-
-        if (rarity == null || !crate.hasRewards(this.opening.getPlayer(), rarity)) {
-            return new ItemStack(Material.AIR);
-        }
-
-        Reward reward = this.opening.getCrate().rollReward(this.opening.getPlayer(), rarity);
+        Reward reward = this.opening.getCrate().rollReward(this.opening.getPlayer());
 
         ItemStack item = reward.getPreview();
         PDCUtil.set(item, Keys.rewardId, reward.getId());

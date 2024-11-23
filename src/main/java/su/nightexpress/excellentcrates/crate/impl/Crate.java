@@ -414,28 +414,17 @@ public class Crate extends AbstractFileData<CratesPlugin> implements Placeholder
     @NotNull
     public Reward rollReward(@Nullable Player player, @Nullable Rarity rarity) {
         List<Reward> rewards = this.getRewards(player, rarity);
-
-        // If no rarity is specified, we have to select a random one and filter rewards by selected rarity.
-        // Otherwise reward list is already obtained with specified rarity.
-        if (rarity == null) {
-            Map<Rarity, Double> rarities = new HashMap<>();
-            rewards.stream().map(Reward::getRarity).forEach(rewardRarity -> {
-                rarities.putIfAbsent(rewardRarity, rewardRarity.getWeight());
-            });
-
-            Rarity rarityRoll = Rnd.getByWeight(rarities);
-            rewards.removeIf(reward -> reward.getRarity() != rarityRoll);
-        }
-
         return this.rollReward(rewards);
     }
 
     @NotNull
     private Reward rollReward(@NotNull Collection<Reward> allRewards) {
         Map<Reward, Double> rewards = new HashMap<>();
+
         allRewards.forEach(reward -> {
             rewards.put(reward, reward.getWeight());
         });
+
         return Rnd.getByWeight(rewards);
     }
 
@@ -633,7 +622,7 @@ public class Crate extends AbstractFileData<CratesPlugin> implements Placeholder
 
     public void setEffectParticle(@NotNull UniParticle effectParticle) {
         this.effectParticle = effectParticle;
-        this.effectParticle.validateData();
+        //this.effectParticle.validateData();
     }
 
     @Nullable
