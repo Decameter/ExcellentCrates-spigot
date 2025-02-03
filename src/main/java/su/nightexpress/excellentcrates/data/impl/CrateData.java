@@ -32,7 +32,7 @@ public class CrateData {
     }
 
     public void setCooldown(long seconds) {
-        this.setOpenCooldown(CrateUtils.createTimestamp(seconds));
+        this.setOpenCooldown(seconds);
     }
 
     public boolean hasCooldown() {
@@ -44,7 +44,7 @@ public class CrateData {
     }
 
     public boolean isCooldownExpired() {
-        return this.openCooldown > 0 && System.currentTimeMillis() > this.openCooldown;
+        return openCooldown != -1 && System.currentTimeMillis() > System.currentTimeMillis() + (this.openCooldown * 1000);
     }
 
     public void addOpenings(int amount) {
@@ -73,8 +73,6 @@ public class CrateData {
     public void removeRewardLimit(@NotNull String rewardId) {
         this.rewardDataMap.remove(rewardId.toLowerCase());
     }
-
-
 
 
     public long getOpenCooldown() {

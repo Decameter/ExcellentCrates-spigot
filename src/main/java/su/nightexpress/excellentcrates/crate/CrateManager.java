@@ -464,7 +464,7 @@ public class CrateManager extends AbstractManager<CratesPlugin> {
 
         if (!settings.isForce() && crate.hasOpenCooldown() && crateData.hasCooldown()) {
             (crateData.isCooldownPermanent() ? Lang.CRATE_OPEN_ERROR_COOLDOWN_ONE_TIMED : Lang.CRATE_OPEN_ERROR_COOLDOWN_TEMPORARY).getMessage()
-                .replace(Placeholders.GENERIC_TIME, TimeUtil.formatDuration(crateData.getOpenCooldown()))
+                .replace(Placeholders.GENERIC_TIME, TimeUtil.formatDuration(System.currentTimeMillis() + (crateData.getOpenCooldown() * 1000)))
                 .replace(crate.replacePlaceholders())
                 .send(player);
             return false;
@@ -505,6 +505,10 @@ public class CrateManager extends AbstractManager<CratesPlugin> {
         CrateOpenEvent openEvent = new CrateOpenEvent(crate, player);
         plugin.getPluginManager().callEvent(openEvent);
         if (openEvent.isCancelled()) return false;
+
+        if (crate.hasOpenCooldown()) {
+            crateData.setCooldown(crate.getOpenCooldown());
+        }
 
         CrateKey key = crate.isKeyRequired() ? this.plugin.getKeyManager().getFirstKey(player, crate) : null;
 

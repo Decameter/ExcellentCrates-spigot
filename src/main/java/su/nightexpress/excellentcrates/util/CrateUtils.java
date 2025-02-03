@@ -25,7 +25,7 @@ public class CrateUtils {
     }
 
     public static long createTimestamp(long seconds) {
-        return seconds < 0 ? -1L : System.currentTimeMillis() + seconds * 1000L;
+        return seconds < 0 ? -1L : System.currentTimeMillis() + (seconds * 1000L);
     }
 
     @NotNull
